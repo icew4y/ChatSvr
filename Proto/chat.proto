@@ -1,0 +1,13 @@
+syntax = "proto3";
+import "common.proto";
+package chatpb;
+
+message C2SLogin{
+    bytes username = 1;
+    bytes password = 2;
+}
+
+message S2CLogin{
+    ERetType eRet = 1;
+}
+

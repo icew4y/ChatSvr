@@ -1,0 +1,10 @@
+syntax = "proto3";
+package chatpb;
+
+enum ERetType{
+    eRet_Success = 0;//成功
+    eRet_RedisError = 1;//redis执行失败
+    eRet_SQLError = 2;//mysql执行失败
+    eRet_PwError = 100;//密码错误
+    eRet_UnError = 101;//账错误
+};
