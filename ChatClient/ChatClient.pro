@@ -31,7 +31,9 @@ SOURCES += \
     chatpb/common.pb.cc \
     nethelper.cpp \
     logindialog.cpp \
-    registerdialog.cpp
+    rankdialog.cpp \
+    registerdialog.cpp \
+    userinfodialog.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -43,12 +45,16 @@ HEADERS += \
     logindialog.h \
     common.hpp \
     msgqueue.hpp \
-    registerdialog.h
+    rankdialog.h \
+    registerdialog.h \
+    userinfodialog.h
 
 FORMS += \
         mainwindow.ui \
     logindialog.ui \
-    registerdialog.ui
+    rankdialog.ui \
+    registerdialog.ui \
+    userinfodialog.ui
 
 INCLUDEPATH += $$PWD/chatpb/include\
                 $$PWD/chatpb\

@@ -36,7 +36,6 @@ bool RegisterDialog::init()
     this->setFixedSize(QSize(300, 200));
     this->setWindowTitle(QStringLiteral("注册"));
     auto pDispather = NET->GetDispather();
-    std::function<void()> func;
     pDispather->registerMsgCallBack<chatpb::S2CRegister>(std::bind(&RegisterDialog::onRegister, this, std::placeholders::_1));
     return true;
 }

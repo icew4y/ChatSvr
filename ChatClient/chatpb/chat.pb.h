@@ -39,7 +39,7 @@ namespace protobuf_chat_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[4];
+  static const ::google::protobuf::internal::ParseTable schema[11];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -47,25 +47,53 @@ struct TableStruct {
 void AddDescriptors();
 }  // namespace protobuf_chat_2eproto
 namespace chatpb {
+class C2SChat;
+class C2SChatDefaultTypeInternal;
+extern C2SChatDefaultTypeInternal _C2SChat_default_instance_;
+class C2SChatCntTopUsers;
+class C2SChatCntTopUsersDefaultTypeInternal;
+extern C2SChatCntTopUsersDefaultTypeInternal _C2SChatCntTopUsers_default_instance_;
 class C2SLogin;
 class C2SLoginDefaultTypeInternal;
 extern C2SLoginDefaultTypeInternal _C2SLogin_default_instance_;
+class C2SOnlineUsers;
+class C2SOnlineUsersDefaultTypeInternal;
+extern C2SOnlineUsersDefaultTypeInternal _C2SOnlineUsers_default_instance_;
 class C2SRegister;
 class C2SRegisterDefaultTypeInternal;
 extern C2SRegisterDefaultTypeInternal _C2SRegister_default_instance_;
+class S2CChat;
+class S2CChatDefaultTypeInternal;
+extern S2CChatDefaultTypeInternal _S2CChat_default_instance_;
+class S2CChatCntTopUsers;
+class S2CChatCntTopUsersDefaultTypeInternal;
+extern S2CChatCntTopUsersDefaultTypeInternal _S2CChatCntTopUsers_default_instance_;
 class S2CLogin;
 class S2CLoginDefaultTypeInternal;
 extern S2CLoginDefaultTypeInternal _S2CLogin_default_instance_;
+class S2COnlineUsers;
+class S2COnlineUsersDefaultTypeInternal;
+extern S2COnlineUsersDefaultTypeInternal _S2COnlineUsers_default_instance_;
 class S2CRegister;
 class S2CRegisterDefaultTypeInternal;
 extern S2CRegisterDefaultTypeInternal _S2CRegister_default_instance_;
+class S2CStatusChange;
+class S2CStatusChangeDefaultTypeInternal;
+extern S2CStatusChangeDefaultTypeInternal _S2CStatusChange_default_instance_;
 }  // namespace chatpb
 namespace google {
 namespace protobuf {
+template<> ::chatpb::C2SChat* Arena::CreateMaybeMessage<::chatpb::C2SChat>(Arena*);
+template<> ::chatpb::C2SChatCntTopUsers* Arena::CreateMaybeMessage<::chatpb::C2SChatCntTopUsers>(Arena*);
 template<> ::chatpb::C2SLogin* Arena::CreateMaybeMessage<::chatpb::C2SLogin>(Arena*);
+template<> ::chatpb::C2SOnlineUsers* Arena::CreateMaybeMessage<::chatpb::C2SOnlineUsers>(Arena*);
 template<> ::chatpb::C2SRegister* Arena::CreateMaybeMessage<::chatpb::C2SRegister>(Arena*);
+template<> ::chatpb::S2CChat* Arena::CreateMaybeMessage<::chatpb::S2CChat>(Arena*);
+template<> ::chatpb::S2CChatCntTopUsers* Arena::CreateMaybeMessage<::chatpb::S2CChatCntTopUsers>(Arena*);
 template<> ::chatpb::S2CLogin* Arena::CreateMaybeMessage<::chatpb::S2CLogin>(Arena*);
+template<> ::chatpb::S2COnlineUsers* Arena::CreateMaybeMessage<::chatpb::S2COnlineUsers>(Arena*);
 template<> ::chatpb::S2CRegister* Arena::CreateMaybeMessage<::chatpb::S2CRegister>(Arena*);
+template<> ::chatpb::S2CStatusChange* Arena::CreateMaybeMessage<::chatpb::S2CStatusChange>(Arena*);
 }  // namespace protobuf
 }  // namespace google
 namespace chatpb {
@@ -285,6 +313,40 @@ class S2CLogin : public ::google::protobuf::Message /* @@protoc_insertion_point(
 
   // accessors -------------------------------------------------------
 
+  // repeated bytes lastchat = 3;
+  int lastchat_size() const;
+  void clear_lastchat();
+  static const int kLastchatFieldNumber = 3;
+  const ::std::string& lastchat(int index) const;
+  ::std::string* mutable_lastchat(int index);
+  void set_lastchat(int index, const ::std::string& value);
+  #if LANG_CXX11
+  void set_lastchat(int index, ::std::string&& value);
+  #endif
+  void set_lastchat(int index, const char* value);
+  void set_lastchat(int index, const void* value, size_t size);
+  ::std::string* add_lastchat();
+  void add_lastchat(const ::std::string& value);
+  #if LANG_CXX11
+  void add_lastchat(::std::string&& value);
+  #endif
+  void add_lastchat(const char* value);
+  void add_lastchat(const void* value, size_t size);
+  const ::google::protobuf::RepeatedPtrField< ::std::string>& lastchat() const;
+  ::google::protobuf::RepeatedPtrField< ::std::string>* mutable_lastchat();
+
+  // .chatpb.StructUser info = 2;
+  bool has_info() const;
+  void clear_info();
+  static const int kInfoFieldNumber = 2;
+  private:
+  const ::chatpb::StructUser& _internal_info() const;
+  public:
+  const ::chatpb::StructUser& info() const;
+  ::chatpb::StructUser* release_info();
+  ::chatpb::StructUser* mutable_info();
+  void set_allocated_info(::chatpb::StructUser* info);
+
   // .chatpb.ERetType eRet = 1;
   void clear_eret();
   static const int kERetFieldNumber = 1;
@@ -295,6 +357,8 @@ class S2CLogin : public ::google::protobuf::Message /* @@protoc_insertion_point(
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::RepeatedPtrField< ::std::string> lastchat_;
+  ::chatpb::StructUser* info_;
   int eret_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_chat_2eproto::TableStruct;
@@ -528,6 +592,876 @@ class S2CRegister : public ::google::protobuf::Message /* @@protoc_insertion_poi
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_chat_2eproto::TableStruct;
 };
+// -------------------------------------------------------------------
+
+class C2SOnlineUsers : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:chatpb.C2SOnlineUsers) */ {
+ public:
+  C2SOnlineUsers();
+  virtual ~C2SOnlineUsers();
+
+  C2SOnlineUsers(const C2SOnlineUsers& from);
+
+  inline C2SOnlineUsers& operator=(const C2SOnlineUsers& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  C2SOnlineUsers(C2SOnlineUsers&& from) noexcept
+    : C2SOnlineUsers() {
+    *this = ::std::move(from);
+  }
+
+  inline C2SOnlineUsers& operator=(C2SOnlineUsers&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const C2SOnlineUsers& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const C2SOnlineUsers* internal_default_instance() {
+    return reinterpret_cast<const C2SOnlineUsers*>(
+               &_C2SOnlineUsers_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    4;
+
+  void Swap(C2SOnlineUsers* other);
+  friend void swap(C2SOnlineUsers& a, C2SOnlineUsers& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline C2SOnlineUsers* New() const final {
+    return CreateMaybeMessage<C2SOnlineUsers>(NULL);
+  }
+
+  C2SOnlineUsers* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<C2SOnlineUsers>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const C2SOnlineUsers& from);
+  void MergeFrom(const C2SOnlineUsers& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(C2SOnlineUsers* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:chatpb.C2SOnlineUsers)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_chat_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class S2COnlineUsers : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:chatpb.S2COnlineUsers) */ {
+ public:
+  S2COnlineUsers();
+  virtual ~S2COnlineUsers();
+
+  S2COnlineUsers(const S2COnlineUsers& from);
+
+  inline S2COnlineUsers& operator=(const S2COnlineUsers& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  S2COnlineUsers(S2COnlineUsers&& from) noexcept
+    : S2COnlineUsers() {
+    *this = ::std::move(from);
+  }
+
+  inline S2COnlineUsers& operator=(S2COnlineUsers&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const S2COnlineUsers& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const S2COnlineUsers* internal_default_instance() {
+    return reinterpret_cast<const S2COnlineUsers*>(
+               &_S2COnlineUsers_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    5;
+
+  void Swap(S2COnlineUsers* other);
+  friend void swap(S2COnlineUsers& a, S2COnlineUsers& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline S2COnlineUsers* New() const final {
+    return CreateMaybeMessage<S2COnlineUsers>(NULL);
+  }
+
+  S2COnlineUsers* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<S2COnlineUsers>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const S2COnlineUsers& from);
+  void MergeFrom(const S2COnlineUsers& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S2COnlineUsers* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // repeated .chatpb.StructUser users = 1;
+  int users_size() const;
+  void clear_users();
+  static const int kUsersFieldNumber = 1;
+  ::chatpb::StructUser* mutable_users(int index);
+  ::google::protobuf::RepeatedPtrField< ::chatpb::StructUser >*
+      mutable_users();
+  const ::chatpb::StructUser& users(int index) const;
+  ::chatpb::StructUser* add_users();
+  const ::google::protobuf::RepeatedPtrField< ::chatpb::StructUser >&
+      users() const;
+
+  // .chatpb.ERetType eRet = 2;
+  void clear_eret();
+  static const int kERetFieldNumber = 2;
+  ::chatpb::ERetType eret() const;
+  void set_eret(::chatpb::ERetType value);
+
+  // @@protoc_insertion_point(class_scope:chatpb.S2COnlineUsers)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::RepeatedPtrField< ::chatpb::StructUser > users_;
+  int eret_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_chat_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class C2SChat : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:chatpb.C2SChat) */ {
+ public:
+  C2SChat();
+  virtual ~C2SChat();
+
+  C2SChat(const C2SChat& from);
+
+  inline C2SChat& operator=(const C2SChat& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  C2SChat(C2SChat&& from) noexcept
+    : C2SChat() {
+    *this = ::std::move(from);
+  }
+
+  inline C2SChat& operator=(C2SChat&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const C2SChat& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const C2SChat* internal_default_instance() {
+    return reinterpret_cast<const C2SChat*>(
+               &_C2SChat_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    6;
+
+  void Swap(C2SChat* other);
+  friend void swap(C2SChat& a, C2SChat& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline C2SChat* New() const final {
+    return CreateMaybeMessage<C2SChat>(NULL);
+  }
+
+  C2SChat* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<C2SChat>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const C2SChat& from);
+  void MergeFrom(const C2SChat& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(C2SChat* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // bytes msg = 3;
+  void clear_msg();
+  static const int kMsgFieldNumber = 3;
+  const ::std::string& msg() const;
+  void set_msg(const ::std::string& value);
+  #if LANG_CXX11
+  void set_msg(::std::string&& value);
+  #endif
+  void set_msg(const char* value);
+  void set_msg(const void* value, size_t size);
+  ::std::string* mutable_msg();
+  ::std::string* release_msg();
+  void set_allocated_msg(::std::string* msg);
+
+  // bytes toNick = 4;
+  void clear_tonick();
+  static const int kToNickFieldNumber = 4;
+  const ::std::string& tonick() const;
+  void set_tonick(const ::std::string& value);
+  #if LANG_CXX11
+  void set_tonick(::std::string&& value);
+  #endif
+  void set_tonick(const char* value);
+  void set_tonick(const void* value, size_t size);
+  ::std::string* mutable_tonick();
+  ::std::string* release_tonick();
+  void set_allocated_tonick(::std::string* tonick);
+
+  // .chatpb.EMsgType eMsgType = 1;
+  void clear_emsgtype();
+  static const int kEMsgTypeFieldNumber = 1;
+  ::chatpb::EMsgType emsgtype() const;
+  void set_emsgtype(::chatpb::EMsgType value);
+
+  // int32 toUid = 2;
+  void clear_touid();
+  static const int kToUidFieldNumber = 2;
+  ::google::protobuf::int32 touid() const;
+  void set_touid(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:chatpb.C2SChat)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr msg_;
+  ::google::protobuf::internal::ArenaStringPtr tonick_;
+  int emsgtype_;
+  ::google::protobuf::int32 touid_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_chat_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class S2CChat : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:chatpb.S2CChat) */ {
+ public:
+  S2CChat();
+  virtual ~S2CChat();
+
+  S2CChat(const S2CChat& from);
+
+  inline S2CChat& operator=(const S2CChat& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  S2CChat(S2CChat&& from) noexcept
+    : S2CChat() {
+    *this = ::std::move(from);
+  }
+
+  inline S2CChat& operator=(S2CChat&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const S2CChat& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const S2CChat* internal_default_instance() {
+    return reinterpret_cast<const S2CChat*>(
+               &_S2CChat_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    7;
+
+  void Swap(S2CChat* other);
+  friend void swap(S2CChat& a, S2CChat& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline S2CChat* New() const final {
+    return CreateMaybeMessage<S2CChat>(NULL);
+  }
+
+  S2CChat* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<S2CChat>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const S2CChat& from);
+  void MergeFrom(const S2CChat& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S2CChat* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // bytes msg = 3;
+  void clear_msg();
+  static const int kMsgFieldNumber = 3;
+  const ::std::string& msg() const;
+  void set_msg(const ::std::string& value);
+  #if LANG_CXX11
+  void set_msg(::std::string&& value);
+  #endif
+  void set_msg(const char* value);
+  void set_msg(const void* value, size_t size);
+  ::std::string* mutable_msg();
+  ::std::string* release_msg();
+  void set_allocated_msg(::std::string* msg);
+
+  // bytes fromNick = 6;
+  void clear_fromnick();
+  static const int kFromNickFieldNumber = 6;
+  const ::std::string& fromnick() const;
+  void set_fromnick(const ::std::string& value);
+  #if LANG_CXX11
+  void set_fromnick(::std::string&& value);
+  #endif
+  void set_fromnick(const char* value);
+  void set_fromnick(const void* value, size_t size);
+  ::std::string* mutable_fromnick();
+  ::std::string* release_fromnick();
+  void set_allocated_fromnick(::std::string* fromnick);
+
+  // bytes toNick = 7;
+  void clear_tonick();
+  static const int kToNickFieldNumber = 7;
+  const ::std::string& tonick() const;
+  void set_tonick(const ::std::string& value);
+  #if LANG_CXX11
+  void set_tonick(::std::string&& value);
+  #endif
+  void set_tonick(const char* value);
+  void set_tonick(const void* value, size_t size);
+  ::std::string* mutable_tonick();
+  ::std::string* release_tonick();
+  void set_allocated_tonick(::std::string* tonick);
+
+  // .chatpb.EMsgType eMsgType = 1;
+  void clear_emsgtype();
+  static const int kEMsgTypeFieldNumber = 1;
+  ::chatpb::EMsgType emsgtype() const;
+  void set_emsgtype(::chatpb::EMsgType value);
+
+  // int32 fromUid = 2;
+  void clear_fromuid();
+  static const int kFromUidFieldNumber = 2;
+  ::google::protobuf::int32 fromuid() const;
+  void set_fromuid(::google::protobuf::int32 value);
+
+  // .chatpb.ERetType eRet = 4;
+  void clear_eret();
+  static const int kERetFieldNumber = 4;
+  ::chatpb::ERetType eret() const;
+  void set_eret(::chatpb::ERetType value);
+
+  // int32 toUid = 5;
+  void clear_touid();
+  static const int kToUidFieldNumber = 5;
+  ::google::protobuf::int32 touid() const;
+  void set_touid(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:chatpb.S2CChat)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr msg_;
+  ::google::protobuf::internal::ArenaStringPtr fromnick_;
+  ::google::protobuf::internal::ArenaStringPtr tonick_;
+  int emsgtype_;
+  ::google::protobuf::int32 fromuid_;
+  int eret_;
+  ::google::protobuf::int32 touid_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_chat_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class C2SChatCntTopUsers : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:chatpb.C2SChatCntTopUsers) */ {
+ public:
+  C2SChatCntTopUsers();
+  virtual ~C2SChatCntTopUsers();
+
+  C2SChatCntTopUsers(const C2SChatCntTopUsers& from);
+
+  inline C2SChatCntTopUsers& operator=(const C2SChatCntTopUsers& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  C2SChatCntTopUsers(C2SChatCntTopUsers&& from) noexcept
+    : C2SChatCntTopUsers() {
+    *this = ::std::move(from);
+  }
+
+  inline C2SChatCntTopUsers& operator=(C2SChatCntTopUsers&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const C2SChatCntTopUsers& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const C2SChatCntTopUsers* internal_default_instance() {
+    return reinterpret_cast<const C2SChatCntTopUsers*>(
+               &_C2SChatCntTopUsers_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    8;
+
+  void Swap(C2SChatCntTopUsers* other);
+  friend void swap(C2SChatCntTopUsers& a, C2SChatCntTopUsers& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline C2SChatCntTopUsers* New() const final {
+    return CreateMaybeMessage<C2SChatCntTopUsers>(NULL);
+  }
+
+  C2SChatCntTopUsers* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<C2SChatCntTopUsers>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const C2SChatCntTopUsers& from);
+  void MergeFrom(const C2SChatCntTopUsers& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(C2SChatCntTopUsers* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // int32 start = 1;
+  void clear_start();
+  static const int kStartFieldNumber = 1;
+  ::google::protobuf::int32 start() const;
+  void set_start(::google::protobuf::int32 value);
+
+  // int32 cnt = 2;
+  void clear_cnt();
+  static const int kCntFieldNumber = 2;
+  ::google::protobuf::int32 cnt() const;
+  void set_cnt(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:chatpb.C2SChatCntTopUsers)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::int32 start_;
+  ::google::protobuf::int32 cnt_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_chat_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class S2CChatCntTopUsers : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:chatpb.S2CChatCntTopUsers) */ {
+ public:
+  S2CChatCntTopUsers();
+  virtual ~S2CChatCntTopUsers();
+
+  S2CChatCntTopUsers(const S2CChatCntTopUsers& from);
+
+  inline S2CChatCntTopUsers& operator=(const S2CChatCntTopUsers& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  S2CChatCntTopUsers(S2CChatCntTopUsers&& from) noexcept
+    : S2CChatCntTopUsers() {
+    *this = ::std::move(from);
+  }
+
+  inline S2CChatCntTopUsers& operator=(S2CChatCntTopUsers&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const S2CChatCntTopUsers& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const S2CChatCntTopUsers* internal_default_instance() {
+    return reinterpret_cast<const S2CChatCntTopUsers*>(
+               &_S2CChatCntTopUsers_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    9;
+
+  void Swap(S2CChatCntTopUsers* other);
+  friend void swap(S2CChatCntTopUsers& a, S2CChatCntTopUsers& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline S2CChatCntTopUsers* New() const final {
+    return CreateMaybeMessage<S2CChatCntTopUsers>(NULL);
+  }
+
+  S2CChatCntTopUsers* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<S2CChatCntTopUsers>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const S2CChatCntTopUsers& from);
+  void MergeFrom(const S2CChatCntTopUsers& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S2CChatCntTopUsers* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // repeated .chatpb.StructUser users = 1;
+  int users_size() const;
+  void clear_users();
+  static const int kUsersFieldNumber = 1;
+  ::chatpb::StructUser* mutable_users(int index);
+  ::google::protobuf::RepeatedPtrField< ::chatpb::StructUser >*
+      mutable_users();
+  const ::chatpb::StructUser& users(int index) const;
+  ::chatpb::StructUser* add_users();
+  const ::google::protobuf::RepeatedPtrField< ::chatpb::StructUser >&
+      users() const;
+
+  // .chatpb.ERetType eRet = 2;
+  void clear_eret();
+  static const int kERetFieldNumber = 2;
+  ::chatpb::ERetType eret() const;
+  void set_eret(::chatpb::ERetType value);
+
+  // @@protoc_insertion_point(class_scope:chatpb.S2CChatCntTopUsers)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::RepeatedPtrField< ::chatpb::StructUser > users_;
+  int eret_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_chat_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class S2CStatusChange : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:chatpb.S2CStatusChange) */ {
+ public:
+  S2CStatusChange();
+  virtual ~S2CStatusChange();
+
+  S2CStatusChange(const S2CStatusChange& from);
+
+  inline S2CStatusChange& operator=(const S2CStatusChange& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  S2CStatusChange(S2CStatusChange&& from) noexcept
+    : S2CStatusChange() {
+    *this = ::std::move(from);
+  }
+
+  inline S2CStatusChange& operator=(S2CStatusChange&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const S2CStatusChange& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const S2CStatusChange* internal_default_instance() {
+    return reinterpret_cast<const S2CStatusChange*>(
+               &_S2CStatusChange_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    10;
+
+  void Swap(S2CStatusChange* other);
+  friend void swap(S2CStatusChange& a, S2CStatusChange& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline S2CStatusChange* New() const final {
+    return CreateMaybeMessage<S2CStatusChange>(NULL);
+  }
+
+  S2CStatusChange* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<S2CStatusChange>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const S2CStatusChange& from);
+  void MergeFrom(const S2CStatusChange& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S2CStatusChange* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // .chatpb.StructUser user = 1;
+  bool has_user() const;
+  void clear_user();
+  static const int kUserFieldNumber = 1;
+  private:
+  const ::chatpb::StructUser& _internal_user() const;
+  public:
+  const ::chatpb::StructUser& user() const;
+  ::chatpb::StructUser* release_user();
+  ::chatpb::StructUser* mutable_user();
+  void set_allocated_user(::chatpb::StructUser* user);
+
+  // .chatpb.EUserStatus status = 2;
+  void clear_status();
+  static const int kStatusFieldNumber = 2;
+  ::chatpb::EUserStatus status() const;
+  void set_status(::chatpb::EUserStatus value);
+
+  // .chatpb.ERetType eRet = 3;
+  void clear_eret();
+  static const int kERetFieldNumber = 3;
+  ::chatpb::ERetType eret() const;
+  void set_eret(::chatpb::ERetType value);
+
+  // @@protoc_insertion_point(class_scope:chatpb.S2CStatusChange)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::chatpb::StructUser* user_;
+  int status_;
+  int eret_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_chat_2eproto::TableStruct;
+};
 // ===================================================================
 
 
@@ -663,6 +1597,123 @@ inline void S2CLogin::set_eret(::chatpb::ERetType value) {
   // @@protoc_insertion_point(field_set:chatpb.S2CLogin.eRet)
 }
 
+// .chatpb.StructUser info = 2;
+inline bool S2CLogin::has_info() const {
+  return this != internal_default_instance() && info_ != NULL;
+}
+inline const ::chatpb::StructUser& S2CLogin::_internal_info() const {
+  return *info_;
+}
+inline const ::chatpb::StructUser& S2CLogin::info() const {
+  const ::chatpb::StructUser* p = info_;
+  // @@protoc_insertion_point(field_get:chatpb.S2CLogin.info)
+  return p != NULL ? *p : *reinterpret_cast<const ::chatpb::StructUser*>(
+      &::chatpb::_StructUser_default_instance_);
+}
+inline ::chatpb::StructUser* S2CLogin::release_info() {
+  // @@protoc_insertion_point(field_release:chatpb.S2CLogin.info)
+  
+  ::chatpb::StructUser* temp = info_;
+  info_ = NULL;
+  return temp;
+}
+inline ::chatpb::StructUser* S2CLogin::mutable_info() {
+  
+  if (info_ == NULL) {
+    auto* p = CreateMaybeMessage<::chatpb::StructUser>(GetArenaNoVirtual());
+    info_ = p;
+  }
+  // @@protoc_insertion_point(field_mutable:chatpb.S2CLogin.info)
+  return info_;
+}
+inline void S2CLogin::set_allocated_info(::chatpb::StructUser* info) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete reinterpret_cast< ::google::protobuf::MessageLite*>(info_);
+  }
+  if (info) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      info = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, info, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  info_ = info;
+  // @@protoc_insertion_point(field_set_allocated:chatpb.S2CLogin.info)
+}
+
+// repeated bytes lastchat = 3;
+inline int S2CLogin::lastchat_size() const {
+  return lastchat_.size();
+}
+inline void S2CLogin::clear_lastchat() {
+  lastchat_.Clear();
+}
+inline const ::std::string& S2CLogin::lastchat(int index) const {
+  // @@protoc_insertion_point(field_get:chatpb.S2CLogin.lastchat)
+  return lastchat_.Get(index);
+}
+inline ::std::string* S2CLogin::mutable_lastchat(int index) {
+  // @@protoc_insertion_point(field_mutable:chatpb.S2CLogin.lastchat)
+  return lastchat_.Mutable(index);
+}
+inline void S2CLogin::set_lastchat(int index, const ::std::string& value) {
+  // @@protoc_insertion_point(field_set:chatpb.S2CLogin.lastchat)
+  lastchat_.Mutable(index)->assign(value);
+}
+#if LANG_CXX11
+inline void S2CLogin::set_lastchat(int index, ::std::string&& value) {
+  // @@protoc_insertion_point(field_set:chatpb.S2CLogin.lastchat)
+  lastchat_.Mutable(index)->assign(std::move(value));
+}
+#endif
+inline void S2CLogin::set_lastchat(int index, const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  lastchat_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:chatpb.S2CLogin.lastchat)
+}
+inline void S2CLogin::set_lastchat(int index, const void* value, size_t size) {
+  lastchat_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:chatpb.S2CLogin.lastchat)
+}
+inline ::std::string* S2CLogin::add_lastchat() {
+  // @@protoc_insertion_point(field_add_mutable:chatpb.S2CLogin.lastchat)
+  return lastchat_.Add();
+}
+inline void S2CLogin::add_lastchat(const ::std::string& value) {
+  lastchat_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:chatpb.S2CLogin.lastchat)
+}
+#if LANG_CXX11
+inline void S2CLogin::add_lastchat(::std::string&& value) {
+  lastchat_.Add(std::move(value));
+  // @@protoc_insertion_point(field_add:chatpb.S2CLogin.lastchat)
+}
+#endif
+inline void S2CLogin::add_lastchat(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  lastchat_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:chatpb.S2CLogin.lastchat)
+}
+inline void S2CLogin::add_lastchat(const void* value, size_t size) {
+  lastchat_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:chatpb.S2CLogin.lastchat)
+}
+inline const ::google::protobuf::RepeatedPtrField< ::std::string>&
+S2CLogin::lastchat() const {
+  // @@protoc_insertion_point(field_list:chatpb.S2CLogin.lastchat)
+  return lastchat_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::std::string>*
+S2CLogin::mutable_lastchat() {
+  // @@protoc_insertion_point(field_mutable_list:chatpb.S2CLogin.lastchat)
+  return &lastchat_;
+}
+
 // -------------------------------------------------------------------
 
 // C2SRegister
@@ -791,9 +1842,586 @@ inline void S2CRegister::set_eret(::chatpb::ERetType value) {
   // @@protoc_insertion_point(field_set:chatpb.S2CRegister.eRet)
 }
 
+// -------------------------------------------------------------------
+
+// C2SOnlineUsers
+
+// -------------------------------------------------------------------
+
+// S2COnlineUsers
+
+// repeated .chatpb.StructUser users = 1;
+inline int S2COnlineUsers::users_size() const {
+  return users_.size();
+}
+inline ::chatpb::StructUser* S2COnlineUsers::mutable_users(int index) {
+  // @@protoc_insertion_point(field_mutable:chatpb.S2COnlineUsers.users)
+  return users_.Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField< ::chatpb::StructUser >*
+S2COnlineUsers::mutable_users() {
+  // @@protoc_insertion_point(field_mutable_list:chatpb.S2COnlineUsers.users)
+  return &users_;
+}
+inline const ::chatpb::StructUser& S2COnlineUsers::users(int index) const {
+  // @@protoc_insertion_point(field_get:chatpb.S2COnlineUsers.users)
+  return users_.Get(index);
+}
+inline ::chatpb::StructUser* S2COnlineUsers::add_users() {
+  // @@protoc_insertion_point(field_add:chatpb.S2COnlineUsers.users)
+  return users_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::chatpb::StructUser >&
+S2COnlineUsers::users() const {
+  // @@protoc_insertion_point(field_list:chatpb.S2COnlineUsers.users)
+  return users_;
+}
+
+// .chatpb.ERetType eRet = 2;
+inline void S2COnlineUsers::clear_eret() {
+  eret_ = 0;
+}
+inline ::chatpb::ERetType S2COnlineUsers::eret() const {
+  // @@protoc_insertion_point(field_get:chatpb.S2COnlineUsers.eRet)
+  return static_cast< ::chatpb::ERetType >(eret_);
+}
+inline void S2COnlineUsers::set_eret(::chatpb::ERetType value) {
+  
+  eret_ = value;
+  // @@protoc_insertion_point(field_set:chatpb.S2COnlineUsers.eRet)
+}
+
+// -------------------------------------------------------------------
+
+// C2SChat
+
+// .chatpb.EMsgType eMsgType = 1;
+inline void C2SChat::clear_emsgtype() {
+  emsgtype_ = 0;
+}
+inline ::chatpb::EMsgType C2SChat::emsgtype() const {
+  // @@protoc_insertion_point(field_get:chatpb.C2SChat.eMsgType)
+  return static_cast< ::chatpb::EMsgType >(emsgtype_);
+}
+inline void C2SChat::set_emsgtype(::chatpb::EMsgType value) {
+  
+  emsgtype_ = value;
+  // @@protoc_insertion_point(field_set:chatpb.C2SChat.eMsgType)
+}
+
+// int32 toUid = 2;
+inline void C2SChat::clear_touid() {
+  touid_ = 0;
+}
+inline ::google::protobuf::int32 C2SChat::touid() const {
+  // @@protoc_insertion_point(field_get:chatpb.C2SChat.toUid)
+  return touid_;
+}
+inline void C2SChat::set_touid(::google::protobuf::int32 value) {
+  
+  touid_ = value;
+  // @@protoc_insertion_point(field_set:chatpb.C2SChat.toUid)
+}
+
+// bytes msg = 3;
+inline void C2SChat::clear_msg() {
+  msg_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& C2SChat::msg() const {
+  // @@protoc_insertion_point(field_get:chatpb.C2SChat.msg)
+  return msg_.GetNoArena();
+}
+inline void C2SChat::set_msg(const ::std::string& value) {
+  
+  msg_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:chatpb.C2SChat.msg)
+}
+#if LANG_CXX11
+inline void C2SChat::set_msg(::std::string&& value) {
+  
+  msg_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:chatpb.C2SChat.msg)
+}
+#endif
+inline void C2SChat::set_msg(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  msg_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:chatpb.C2SChat.msg)
+}
+inline void C2SChat::set_msg(const void* value, size_t size) {
+  
+  msg_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:chatpb.C2SChat.msg)
+}
+inline ::std::string* C2SChat::mutable_msg() {
+  
+  // @@protoc_insertion_point(field_mutable:chatpb.C2SChat.msg)
+  return msg_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* C2SChat::release_msg() {
+  // @@protoc_insertion_point(field_release:chatpb.C2SChat.msg)
+  
+  return msg_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void C2SChat::set_allocated_msg(::std::string* msg) {
+  if (msg != NULL) {
+    
+  } else {
+    
+  }
+  msg_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), msg);
+  // @@protoc_insertion_point(field_set_allocated:chatpb.C2SChat.msg)
+}
+
+// bytes toNick = 4;
+inline void C2SChat::clear_tonick() {
+  tonick_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& C2SChat::tonick() const {
+  // @@protoc_insertion_point(field_get:chatpb.C2SChat.toNick)
+  return tonick_.GetNoArena();
+}
+inline void C2SChat::set_tonick(const ::std::string& value) {
+  
+  tonick_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:chatpb.C2SChat.toNick)
+}
+#if LANG_CXX11
+inline void C2SChat::set_tonick(::std::string&& value) {
+  
+  tonick_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:chatpb.C2SChat.toNick)
+}
+#endif
+inline void C2SChat::set_tonick(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  tonick_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:chatpb.C2SChat.toNick)
+}
+inline void C2SChat::set_tonick(const void* value, size_t size) {
+  
+  tonick_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:chatpb.C2SChat.toNick)
+}
+inline ::std::string* C2SChat::mutable_tonick() {
+  
+  // @@protoc_insertion_point(field_mutable:chatpb.C2SChat.toNick)
+  return tonick_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* C2SChat::release_tonick() {
+  // @@protoc_insertion_point(field_release:chatpb.C2SChat.toNick)
+  
+  return tonick_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void C2SChat::set_allocated_tonick(::std::string* tonick) {
+  if (tonick != NULL) {
+    
+  } else {
+    
+  }
+  tonick_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), tonick);
+  // @@protoc_insertion_point(field_set_allocated:chatpb.C2SChat.toNick)
+}
+
+// -------------------------------------------------------------------
+
+// S2CChat
+
+// .chatpb.EMsgType eMsgType = 1;
+inline void S2CChat::clear_emsgtype() {
+  emsgtype_ = 0;
+}
+inline ::chatpb::EMsgType S2CChat::emsgtype() const {
+  // @@protoc_insertion_point(field_get:chatpb.S2CChat.eMsgType)
+  return static_cast< ::chatpb::EMsgType >(emsgtype_);
+}
+inline void S2CChat::set_emsgtype(::chatpb::EMsgType value) {
+  
+  emsgtype_ = value;
+  // @@protoc_insertion_point(field_set:chatpb.S2CChat.eMsgType)
+}
+
+// int32 fromUid = 2;
+inline void S2CChat::clear_fromuid() {
+  fromuid_ = 0;
+}
+inline ::google::protobuf::int32 S2CChat::fromuid() const {
+  // @@protoc_insertion_point(field_get:chatpb.S2CChat.fromUid)
+  return fromuid_;
+}
+inline void S2CChat::set_fromuid(::google::protobuf::int32 value) {
+  
+  fromuid_ = value;
+  // @@protoc_insertion_point(field_set:chatpb.S2CChat.fromUid)
+}
+
+// bytes msg = 3;
+inline void S2CChat::clear_msg() {
+  msg_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& S2CChat::msg() const {
+  // @@protoc_insertion_point(field_get:chatpb.S2CChat.msg)
+  return msg_.GetNoArena();
+}
+inline void S2CChat::set_msg(const ::std::string& value) {
+  
+  msg_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:chatpb.S2CChat.msg)
+}
+#if LANG_CXX11
+inline void S2CChat::set_msg(::std::string&& value) {
+  
+  msg_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:chatpb.S2CChat.msg)
+}
+#endif
+inline void S2CChat::set_msg(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  msg_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:chatpb.S2CChat.msg)
+}
+inline void S2CChat::set_msg(const void* value, size_t size) {
+  
+  msg_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:chatpb.S2CChat.msg)
+}
+inline ::std::string* S2CChat::mutable_msg() {
+  
+  // @@protoc_insertion_point(field_mutable:chatpb.S2CChat.msg)
+  return msg_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* S2CChat::release_msg() {
+  // @@protoc_insertion_point(field_release:chatpb.S2CChat.msg)
+  
+  return msg_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void S2CChat::set_allocated_msg(::std::string* msg) {
+  if (msg != NULL) {
+    
+  } else {
+    
+  }
+  msg_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), msg);
+  // @@protoc_insertion_point(field_set_allocated:chatpb.S2CChat.msg)
+}
+
+// .chatpb.ERetType eRet = 4;
+inline void S2CChat::clear_eret() {
+  eret_ = 0;
+}
+inline ::chatpb::ERetType S2CChat::eret() const {
+  // @@protoc_insertion_point(field_get:chatpb.S2CChat.eRet)
+  return static_cast< ::chatpb::ERetType >(eret_);
+}
+inline void S2CChat::set_eret(::chatpb::ERetType value) {
+  
+  eret_ = value;
+  // @@protoc_insertion_point(field_set:chatpb.S2CChat.eRet)
+}
+
+// int32 toUid = 5;
+inline void S2CChat::clear_touid() {
+  touid_ = 0;
+}
+inline ::google::protobuf::int32 S2CChat::touid() const {
+  // @@protoc_insertion_point(field_get:chatpb.S2CChat.toUid)
+  return touid_;
+}
+inline void S2CChat::set_touid(::google::protobuf::int32 value) {
+  
+  touid_ = value;
+  // @@protoc_insertion_point(field_set:chatpb.S2CChat.toUid)
+}
+
+// bytes fromNick = 6;
+inline void S2CChat::clear_fromnick() {
+  fromnick_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& S2CChat::fromnick() const {
+  // @@protoc_insertion_point(field_get:chatpb.S2CChat.fromNick)
+  return fromnick_.GetNoArena();
+}
+inline void S2CChat::set_fromnick(const ::std::string& value) {
+  
+  fromnick_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:chatpb.S2CChat.fromNick)
+}
+#if LANG_CXX11
+inline void S2CChat::set_fromnick(::std::string&& value) {
+  
+  fromnick_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:chatpb.S2CChat.fromNick)
+}
+#endif
+inline void S2CChat::set_fromnick(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  fromnick_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:chatpb.S2CChat.fromNick)
+}
+inline void S2CChat::set_fromnick(const void* value, size_t size) {
+  
+  fromnick_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:chatpb.S2CChat.fromNick)
+}
+inline ::std::string* S2CChat::mutable_fromnick() {
+  
+  // @@protoc_insertion_point(field_mutable:chatpb.S2CChat.fromNick)
+  return fromnick_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* S2CChat::release_fromnick() {
+  // @@protoc_insertion_point(field_release:chatpb.S2CChat.fromNick)
+  
+  return fromnick_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void S2CChat::set_allocated_fromnick(::std::string* fromnick) {
+  if (fromnick != NULL) {
+    
+  } else {
+    
+  }
+  fromnick_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), fromnick);
+  // @@protoc_insertion_point(field_set_allocated:chatpb.S2CChat.fromNick)
+}
+
+// bytes toNick = 7;
+inline void S2CChat::clear_tonick() {
+  tonick_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& S2CChat::tonick() const {
+  // @@protoc_insertion_point(field_get:chatpb.S2CChat.toNick)
+  return tonick_.GetNoArena();
+}
+inline void S2CChat::set_tonick(const ::std::string& value) {
+  
+  tonick_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:chatpb.S2CChat.toNick)
+}
+#if LANG_CXX11
+inline void S2CChat::set_tonick(::std::string&& value) {
+  
+  tonick_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:chatpb.S2CChat.toNick)
+}
+#endif
+inline void S2CChat::set_tonick(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  tonick_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:chatpb.S2CChat.toNick)
+}
+inline void S2CChat::set_tonick(const void* value, size_t size) {
+  
+  tonick_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:chatpb.S2CChat.toNick)
+}
+inline ::std::string* S2CChat::mutable_tonick() {
+  
+  // @@protoc_insertion_point(field_mutable:chatpb.S2CChat.toNick)
+  return tonick_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* S2CChat::release_tonick() {
+  // @@protoc_insertion_point(field_release:chatpb.S2CChat.toNick)
+  
+  return tonick_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void S2CChat::set_allocated_tonick(::std::string* tonick) {
+  if (tonick != NULL) {
+    
+  } else {
+    
+  }
+  tonick_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), tonick);
+  // @@protoc_insertion_point(field_set_allocated:chatpb.S2CChat.toNick)
+}
+
+// -------------------------------------------------------------------
+
+// C2SChatCntTopUsers
+
+// int32 start = 1;
+inline void C2SChatCntTopUsers::clear_start() {
+  start_ = 0;
+}
+inline ::google::protobuf::int32 C2SChatCntTopUsers::start() const {
+  // @@protoc_insertion_point(field_get:chatpb.C2SChatCntTopUsers.start)
+  return start_;
+}
+inline void C2SChatCntTopUsers::set_start(::google::protobuf::int32 value) {
+  
+  start_ = value;
+  // @@protoc_insertion_point(field_set:chatpb.C2SChatCntTopUsers.start)
+}
+
+// int32 cnt = 2;
+inline void C2SChatCntTopUsers::clear_cnt() {
+  cnt_ = 0;
+}
+inline ::google::protobuf::int32 C2SChatCntTopUsers::cnt() const {
+  // @@protoc_insertion_point(field_get:chatpb.C2SChatCntTopUsers.cnt)
+  return cnt_;
+}
+inline void C2SChatCntTopUsers::set_cnt(::google::protobuf::int32 value) {
+  
+  cnt_ = value;
+  // @@protoc_insertion_point(field_set:chatpb.C2SChatCntTopUsers.cnt)
+}
+
+// -------------------------------------------------------------------
+
+// S2CChatCntTopUsers
+
+// repeated .chatpb.StructUser users = 1;
+inline int S2CChatCntTopUsers::users_size() const {
+  return users_.size();
+}
+inline ::chatpb::StructUser* S2CChatCntTopUsers::mutable_users(int index) {
+  // @@protoc_insertion_point(field_mutable:chatpb.S2CChatCntTopUsers.users)
+  return users_.Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField< ::chatpb::StructUser >*
+S2CChatCntTopUsers::mutable_users() {
+  // @@protoc_insertion_point(field_mutable_list:chatpb.S2CChatCntTopUsers.users)
+  return &users_;
+}
+inline const ::chatpb::StructUser& S2CChatCntTopUsers::users(int index) const {
+  // @@protoc_insertion_point(field_get:chatpb.S2CChatCntTopUsers.users)
+  return users_.Get(index);
+}
+inline ::chatpb::StructUser* S2CChatCntTopUsers::add_users() {
+  // @@protoc_insertion_point(field_add:chatpb.S2CChatCntTopUsers.users)
+  return users_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::chatpb::StructUser >&
+S2CChatCntTopUsers::users() const {
+  // @@protoc_insertion_point(field_list:chatpb.S2CChatCntTopUsers.users)
+  return users_;
+}
+
+// .chatpb.ERetType eRet = 2;
+inline void S2CChatCntTopUsers::clear_eret() {
+  eret_ = 0;
+}
+inline ::chatpb::ERetType S2CChatCntTopUsers::eret() const {
+  // @@protoc_insertion_point(field_get:chatpb.S2CChatCntTopUsers.eRet)
+  return static_cast< ::chatpb::ERetType >(eret_);
+}
+inline void S2CChatCntTopUsers::set_eret(::chatpb::ERetType value) {
+  
+  eret_ = value;
+  // @@protoc_insertion_point(field_set:chatpb.S2CChatCntTopUsers.eRet)
+}
+
+// -------------------------------------------------------------------
+
+// S2CStatusChange
+
+// .chatpb.StructUser user = 1;
+inline bool S2CStatusChange::has_user() const {
+  return this != internal_default_instance() && user_ != NULL;
+}
+inline const ::chatpb::StructUser& S2CStatusChange::_internal_user() const {
+  return *user_;
+}
+inline const ::chatpb::StructUser& S2CStatusChange::user() const {
+  const ::chatpb::StructUser* p = user_;
+  // @@protoc_insertion_point(field_get:chatpb.S2CStatusChange.user)
+  return p != NULL ? *p : *reinterpret_cast<const ::chatpb::StructUser*>(
+      &::chatpb::_StructUser_default_instance_);
+}
+inline ::chatpb::StructUser* S2CStatusChange::release_user() {
+  // @@protoc_insertion_point(field_release:chatpb.S2CStatusChange.user)
+  
+  ::chatpb::StructUser* temp = user_;
+  user_ = NULL;
+  return temp;
+}
+inline ::chatpb::StructUser* S2CStatusChange::mutable_user() {
+  
+  if (user_ == NULL) {
+    auto* p = CreateMaybeMessage<::chatpb::StructUser>(GetArenaNoVirtual());
+    user_ = p;
+  }
+  // @@protoc_insertion_point(field_mutable:chatpb.S2CStatusChange.user)
+  return user_;
+}
+inline void S2CStatusChange::set_allocated_user(::chatpb::StructUser* user) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete reinterpret_cast< ::google::protobuf::MessageLite*>(user_);
+  }
+  if (user) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      user = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, user, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  user_ = user;
+  // @@protoc_insertion_point(field_set_allocated:chatpb.S2CStatusChange.user)
+}
+
+// .chatpb.EUserStatus status = 2;
+inline void S2CStatusChange::clear_status() {
+  status_ = 0;
+}
+inline ::chatpb::EUserStatus S2CStatusChange::status() const {
+  // @@protoc_insertion_point(field_get:chatpb.S2CStatusChange.status)
+  return static_cast< ::chatpb::EUserStatus >(status_);
+}
+inline void S2CStatusChange::set_status(::chatpb::EUserStatus value) {
+  
+  status_ = value;
+  // @@protoc_insertion_point(field_set:chatpb.S2CStatusChange.status)
+}
+
+// .chatpb.ERetType eRet = 3;
+inline void S2CStatusChange::clear_eret() {
+  eret_ = 0;
+}
+inline ::chatpb::ERetType S2CStatusChange::eret() const {
+  // @@protoc_insertion_point(field_get:chatpb.S2CStatusChange.eRet)
+  return static_cast< ::chatpb::ERetType >(eret_);
+}
+inline void S2CStatusChange::set_eret(::chatpb::ERetType value) {
+  
+  eret_ = value;
+  // @@protoc_insertion_point(field_set:chatpb.S2CStatusChange.eRet)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

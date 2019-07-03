@@ -12,6 +12,7 @@ import (
 type Server struct {
     Addr        string
     CurConnId   int32
+    CurUserId   int32
     MaxMsgBuf   int32
     inChannel   chan *UserMsg
 }
@@ -23,7 +24,6 @@ func (this *Server) Listen () {
         os.Exit(1)
     }
     defer listener.Close()
-    //this.inChannel = make(chan *UserMsg, this.MsgQueueLen)
     l4g.Info("listen successed")
     for {
         conn, err := listener.Accept()
@@ -32,7 +32,7 @@ func (this *Server) Listen () {
             os.Exit(0)
         }
         this.CurConnId++
-        user := User {connid:this.CurConnId, Conn:conn}
+        user := User {id:this.CurConnId, Conn:conn}
         l4g.Info(">>>>> new connection %s >>>>>" , conn.RemoteAddr())
         go this.ClientCb(&user)
     }
@@ -40,8 +40,10 @@ func (this *Server) Listen () {
 
 func (this *Server)ClientCb(pUser *User) {
     defer func () {
+        pUser.Offline()
+        OnlineUsers.NotifyUserStatusChange(pUser)
+        ConnUsers.NotifyUserStatusChange(pUser)
         pUser.Close()
-        l4g.Info("connid:%d,uid:%d,nickname:%s, leave", pUser.connid, pUser.uid, pUser.nickname)
     }()
     readBuf :=make([]byte, this.MaxMsgBuf)
     for {

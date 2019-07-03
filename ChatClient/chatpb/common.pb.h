@@ -26,9 +26,11 @@
 #include <google/protobuf/generated_message_util.h>
 #include <google/protobuf/inlined_string_field.h>
 #include <google/protobuf/metadata.h>
+#include <google/protobuf/message.h>
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
 #include <google/protobuf/generated_enum_reflection.h>
+#include <google/protobuf/unknown_field_set.h>
 // @@protoc_insertion_point(includes)
 #define PROTOBUF_INTERNAL_EXPORT_protobuf_common_2eproto 
 
@@ -45,24 +47,34 @@ struct TableStruct {
 void AddDescriptors();
 }  // namespace protobuf_common_2eproto
 namespace chatpb {
+class StructUser;
+class StructUserDefaultTypeInternal;
+extern StructUserDefaultTypeInternal _StructUser_default_instance_;
 }  // namespace chatpb
+namespace google {
+namespace protobuf {
+template<> ::chatpb::StructUser* Arena::CreateMaybeMessage<::chatpb::StructUser>(Arena*);
+}  // namespace protobuf
+}  // namespace google
 namespace chatpb {
 
 enum ERetType {
   Success = 0,
-  RedisError = 1,
-  SQLError = 2,
+  NormalError = 1,
+  RedisError = 2,
+  SQLError = 3,
   PwError = 100,
   UnError = 101,
   UnExistError = 102,
   UnNotStandard = 103,
   PwNotStandard = 104,
+  UserOffline = 105,
   ERetType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   ERetType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool ERetType_IsValid(int value);
 const ERetType ERetType_MIN = Success;
-const ERetType ERetType_MAX = PwNotStandard;
+const ERetType ERetType_MAX = UserOffline;
 const int ERetType_ARRAYSIZE = ERetType_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* ERetType_descriptor();
@@ -75,9 +87,194 @@ inline bool ERetType_Parse(
   return ::google::protobuf::internal::ParseNamedEnum<ERetType>(
     ERetType_descriptor(), name, value);
 }
+enum EMsgType {
+  eMsg_All = 0,
+  eMsg_One = 1,
+  EMsgType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  EMsgType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool EMsgType_IsValid(int value);
+const EMsgType EMsgType_MIN = eMsg_All;
+const EMsgType EMsgType_MAX = eMsg_One;
+const int EMsgType_ARRAYSIZE = EMsgType_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* EMsgType_descriptor();
+inline const ::std::string& EMsgType_Name(EMsgType value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    EMsgType_descriptor(), value);
+}
+inline bool EMsgType_Parse(
+    const ::std::string& name, EMsgType* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<EMsgType>(
+    EMsgType_descriptor(), name, value);
+}
+enum EUserStatus {
+  eStatus_Online = 0,
+  eStatus_Offline = 1,
+  EUserStatus_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  EUserStatus_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool EUserStatus_IsValid(int value);
+const EUserStatus EUserStatus_MIN = eStatus_Online;
+const EUserStatus EUserStatus_MAX = eStatus_Offline;
+const int EUserStatus_ARRAYSIZE = EUserStatus_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* EUserStatus_descriptor();
+inline const ::std::string& EUserStatus_Name(EUserStatus value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    EUserStatus_descriptor(), value);
+}
+inline bool EUserStatus_Parse(
+    const ::std::string& name, EUserStatus* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<EUserStatus>(
+    EUserStatus_descriptor(), name, value);
+}
 // ===================================================================
 
+class StructUser : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:chatpb.StructUser) */ {
+ public:
+  StructUser();
+  virtual ~StructUser();
 
+  StructUser(const StructUser& from);
+
+  inline StructUser& operator=(const StructUser& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  StructUser(StructUser&& from) noexcept
+    : StructUser() {
+    *this = ::std::move(from);
+  }
+
+  inline StructUser& operator=(StructUser&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const StructUser& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const StructUser* internal_default_instance() {
+    return reinterpret_cast<const StructUser*>(
+               &_StructUser_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    0;
+
+  void Swap(StructUser* other);
+  friend void swap(StructUser& a, StructUser& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline StructUser* New() const final {
+    return CreateMaybeMessage<StructUser>(NULL);
+  }
+
+  StructUser* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<StructUser>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const StructUser& from);
+  void MergeFrom(const StructUser& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(StructUser* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // bytes username = 1;
+  void clear_username();
+  static const int kUsernameFieldNumber = 1;
+  const ::std::string& username() const;
+  void set_username(const ::std::string& value);
+  #if LANG_CXX11
+  void set_username(::std::string&& value);
+  #endif
+  void set_username(const char* value);
+  void set_username(const void* value, size_t size);
+  ::std::string* mutable_username();
+  ::std::string* release_username();
+  void set_allocated_username(::std::string* username);
+
+  // int64 regtime = 3;
+  void clear_regtime();
+  static const int kRegtimeFieldNumber = 3;
+  ::google::protobuf::int64 regtime() const;
+  void set_regtime(::google::protobuf::int64 value);
+
+  // int32 uid = 2;
+  void clear_uid();
+  static const int kUidFieldNumber = 2;
+  ::google::protobuf::int32 uid() const;
+  void set_uid(::google::protobuf::int32 value);
+
+  // int32 chatcnt = 5;
+  void clear_chatcnt();
+  static const int kChatcntFieldNumber = 5;
+  ::google::protobuf::int32 chatcnt() const;
+  void set_chatcnt(::google::protobuf::int32 value);
+
+  // int64 lastlogintime = 4;
+  void clear_lastlogintime();
+  static const int kLastlogintimeFieldNumber = 4;
+  ::google::protobuf::int64 lastlogintime() const;
+  void set_lastlogintime(::google::protobuf::int64 value);
+
+  // int64 lastleavetime = 6;
+  void clear_lastleavetime();
+  static const int kLastleavetimeFieldNumber = 6;
+  ::google::protobuf::int64 lastleavetime() const;
+  void set_lastleavetime(::google::protobuf::int64 value);
+
+  // @@protoc_insertion_point(class_scope:chatpb.StructUser)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr username_;
+  ::google::protobuf::int64 regtime_;
+  ::google::protobuf::int32 uid_;
+  ::google::protobuf::int32 chatcnt_;
+  ::google::protobuf::int64 lastlogintime_;
+  ::google::protobuf::int64 lastleavetime_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_common_2eproto::TableStruct;
+};
 // ===================================================================
 
 
@@ -87,6 +284,131 @@ inline bool ERetType_Parse(
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
+// StructUser
+
+// bytes username = 1;
+inline void StructUser::clear_username() {
+  username_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& StructUser::username() const {
+  // @@protoc_insertion_point(field_get:chatpb.StructUser.username)
+  return username_.GetNoArena();
+}
+inline void StructUser::set_username(const ::std::string& value) {
+  
+  username_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:chatpb.StructUser.username)
+}
+#if LANG_CXX11
+inline void StructUser::set_username(::std::string&& value) {
+  
+  username_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:chatpb.StructUser.username)
+}
+#endif
+inline void StructUser::set_username(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  username_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:chatpb.StructUser.username)
+}
+inline void StructUser::set_username(const void* value, size_t size) {
+  
+  username_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:chatpb.StructUser.username)
+}
+inline ::std::string* StructUser::mutable_username() {
+  
+  // @@protoc_insertion_point(field_mutable:chatpb.StructUser.username)
+  return username_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* StructUser::release_username() {
+  // @@protoc_insertion_point(field_release:chatpb.StructUser.username)
+  
+  return username_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void StructUser::set_allocated_username(::std::string* username) {
+  if (username != NULL) {
+    
+  } else {
+    
+  }
+  username_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), username);
+  // @@protoc_insertion_point(field_set_allocated:chatpb.StructUser.username)
+}
+
+// int32 uid = 2;
+inline void StructUser::clear_uid() {
+  uid_ = 0;
+}
+inline ::google::protobuf::int32 StructUser::uid() const {
+  // @@protoc_insertion_point(field_get:chatpb.StructUser.uid)
+  return uid_;
+}
+inline void StructUser::set_uid(::google::protobuf::int32 value) {
+  
+  uid_ = value;
+  // @@protoc_insertion_point(field_set:chatpb.StructUser.uid)
+}
+
+// int64 regtime = 3;
+inline void StructUser::clear_regtime() {
+  regtime_ = GOOGLE_LONGLONG(0);
+}
+inline ::google::protobuf::int64 StructUser::regtime() const {
+  // @@protoc_insertion_point(field_get:chatpb.StructUser.regtime)
+  return regtime_;
+}
+inline void StructUser::set_regtime(::google::protobuf::int64 value) {
+  
+  regtime_ = value;
+  // @@protoc_insertion_point(field_set:chatpb.StructUser.regtime)
+}
+
+// int64 lastlogintime = 4;
+inline void StructUser::clear_lastlogintime() {
+  lastlogintime_ = GOOGLE_LONGLONG(0);
+}
+inline ::google::protobuf::int64 StructUser::lastlogintime() const {
+  // @@protoc_insertion_point(field_get:chatpb.StructUser.lastlogintime)
+  return lastlogintime_;
+}
+inline void StructUser::set_lastlogintime(::google::protobuf::int64 value) {
+  
+  lastlogintime_ = value;
+  // @@protoc_insertion_point(field_set:chatpb.StructUser.lastlogintime)
+}
+
+// int32 chatcnt = 5;
+inline void StructUser::clear_chatcnt() {
+  chatcnt_ = 0;
+}
+inline ::google::protobuf::int32 StructUser::chatcnt() const {
+  // @@protoc_insertion_point(field_get:chatpb.StructUser.chatcnt)
+  return chatcnt_;
+}
+inline void StructUser::set_chatcnt(::google::protobuf::int32 value) {
+  
+  chatcnt_ = value;
+  // @@protoc_insertion_point(field_set:chatpb.StructUser.chatcnt)
+}
+
+// int64 lastleavetime = 6;
+inline void StructUser::clear_lastleavetime() {
+  lastleavetime_ = GOOGLE_LONGLONG(0);
+}
+inline ::google::protobuf::int64 StructUser::lastleavetime() const {
+  // @@protoc_insertion_point(field_get:chatpb.StructUser.lastleavetime)
+  return lastleavetime_;
+}
+inline void StructUser::set_lastleavetime(::google::protobuf::int64 value) {
+  
+  lastleavetime_ = value;
+  // @@protoc_insertion_point(field_set:chatpb.StructUser.lastleavetime)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
@@ -102,6 +424,16 @@ template <> struct is_proto_enum< ::chatpb::ERetType> : ::std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::chatpb::ERetType>() {
   return ::chatpb::ERetType_descriptor();
+}
+template <> struct is_proto_enum< ::chatpb::EMsgType> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::chatpb::EMsgType>() {
+  return ::chatpb::EMsgType_descriptor();
+}
+template <> struct is_proto_enum< ::chatpb::EUserStatus> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::chatpb::EUserStatus>() {
+  return ::chatpb::EUserStatus_descriptor();
 }
 
 }  // namespace protobuf

@@ -1,4 +1,4 @@
-#include "nethelper.h"
+﻿#include "nethelper.h"
 #include <QDebug>
 NetHelper::NetHelper(QObject *pObj)
     : QTcpSocket (pObj)
@@ -8,6 +8,7 @@ NetHelper::NetHelper(QObject *pObj)
 
 int32_t NetHelper::send(const google::protobuf::Message &msg)
 {
+    qDebug () << "send:" << msg.Utf8DebugString().c_str();
     auto strData = msg.SerializeAsString();
     auto strTypeName = msg.GetTypeName();
     uint32_t nMsgTypeSize = strTypeName.size();
@@ -36,7 +37,6 @@ std::shared_ptr<ProtoBufDispather> NetHelper::GetDispather() const
 //暂时都放在一个线程处理把....因为Qt自带的Socket也在主线程,意义不是很大
 void NetHelper::onRead()
 {
-    qDebug() << "ok";
     int32_t nPacketSize = 0, nMsgTypeSize = 0;
     while (this->bytesAvailable() >= sizeof (int32_t)*2) {
         this->read((char*)&nPacketSize, 4);
@@ -44,15 +44,15 @@ void NetHelper::onRead()
         nPacketSize = qFromBigEndian (nPacketSize);
         nMsgTypeSize = qFromBigEndian (nMsgTypeSize);
         int32_t nPacketData = nPacketSize - sizeof (int32_t)*2;
-        qDebug() << nPacketData << this->bytesAvailable();
         while (this->bytesAvailable() < nPacketData);
         std::shared_ptr<char> pBuf(new char[nPacketData+1], std::default_delete<char[]>());
         memset(pBuf.get(), 0, nPacketData+1);
         this->read(pBuf.get(), nPacketData);
         std::string strMsgType(pBuf.get(), pBuf.get() + nMsgTypeSize);
-//        auto pMsg = m_dispather.CreateMsg(strMsgType);
-        std::string strMsg(pBuf.get() + nMsgTypeSize, pBuf.get() + nPacketData);
-        m_pDispather->onMsgCallBack(strMsgType, strMsg);
+        auto pMsg = m_pDispather->CreateMsg(strMsgType);
+        pMsg->ParseFromString(std::string(pBuf.get() + nMsgTypeSize, pBuf.get() + nPacketData));
+        qDebug() <<"recv:"<< strMsgType.c_str() << pMsg->ShortDebugString().c_str();
+        m_pDispather->onMsgCallBack(pMsg);
 //        pMsg->ParseFromString(strMsg);
 //        MsgItem item;
 //        item.pMsg = pMsg;

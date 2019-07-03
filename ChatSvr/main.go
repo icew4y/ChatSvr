@@ -2,6 +2,7 @@ package main
 
 import (
     "time"
+    "strconv"
     l4g "github.com/alecthomas/log4go"
     "github.com/fzzy/radix/redis"
 )
@@ -30,6 +31,7 @@ func main () {
         MaxMsgBuf: 10240,
         inChannel: make(chan *UserMsg, 8192),
     }
+    SvrReadConfig()
     go svr.Listen()
     Run()
 }
@@ -42,6 +44,36 @@ func RedisErrHndlr(err error) (bool) {
     return true
 }
 
+func SvrReadConfig() {
+    r, err := RedisCli.Cmd("hgetall", KeyConfig).Hash()
+    if (RedisErrHndlr(err)) {
+        if len(r) == 0 {
+           SvrConfigInit() 
+        } else {
+            id, _ := r[FiledCurUID]
+            nId, _ := strconv.Atoi(id)
+            svr.CurUserId = int32(nId)
+        }
+    }
+}
+
+func SvrConfigInit() {
+    l4g.Info("svr config install")
+    r, err := RedisCli.Cmd(
+        "hmset", 
+        KeyConfig,
+        FiledCurUID,
+        1000,
+    ).Bool()
+    if (RedisErrHndlr(err)) {
+        if r {
+            l4g.Info("install config successed")
+        } else {
+            l4g.Error("install config failed")
+        }
+    }
+}
+
 func Run() {
     for {
         l4g.Info("loop:%d cap:%d", len(svr.inChannel), cap(svr.inChannel))
@@ -49,6 +81,12 @@ func Run() {
             case msg := <-svr.inChannel:
                 l4g.Info(msg)
                 ProtoDispather(msg)
+            case pUser := <-OnlineUsers.UserCh:
+                l4g.Debug("user change")
+                OnlineUsers.StatusChange(pUser)
+            case pUser := <-ConnUsers.UserCh:
+                l4g.Debug("conn change")
+                ConnUsers.StatusChange(pUser)
             //default:
                 //l4g.Debug("run loop default")
         }

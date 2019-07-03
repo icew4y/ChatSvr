@@ -9,5 +9,56 @@ message C2SLogin{
 
 message S2CLogin{
     ERetType eRet = 1;
+    StructUser info = 2;
+    repeated bytes lastchat = 3;
 }
 
+message C2SRegister{
+    bytes username = 1;
+    bytes password = 2;
+}
+
+message S2CRegister{
+    ERetType eRet = 1;
+}
+
+message C2SOnlineUsers {
+}
+
+message S2COnlineUsers {
+    repeated StructUser users = 1;
+    ERetType eRet = 2;
+}
+
+message C2SChat {
+    EMsgType eMsgType = 1;
+    int32 toUid = 2;
+    bytes msg = 3;
+    bytes toNick = 4;
+}
+
+message S2CChat {
+    EMsgType eMsgType = 1;
+    int32 fromUid = 2;
+    bytes msg  = 3;
+    ERetType eRet = 4;
+    int32 toUid = 5;
+    bytes fromNick = 6;
+    bytes toNick = 7;
+}
+
+message C2SChatCntTopUsers {
+    int32 start = 1;
+    int32 cnt = 2;
+}
+
+message S2CChatCntTopUsers {
+    repeated StructUser users = 1;
+    ERetType eRet = 2;
+}
+
+message S2CStatusChange {
+    StructUser user = 1;
+    EUserStatus status = 2;
+    ERetType eRet = 3;
+}

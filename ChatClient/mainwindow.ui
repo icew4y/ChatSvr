@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>486</width>
-    <height>376</height>
+    <width>577</width>
+    <height>465</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,19 +20,19 @@
       <item>
        <widget class="QLabel" name="label">
         <property name="text">
-         <string>本机ID:</string>
+         <string>账号:</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="uid_label">
+       <widget class="QLabel" name="username_label">
         <property name="text">
          <string>nil</string>
         </property>
        </widget>
       </item>
       <item>
-       <spacer name="horizontalSpacer_2">
+       <spacer name="horizontalSpacer_3">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
@@ -59,7 +59,7 @@
        </widget>
       </item>
       <item>
-       <spacer name="horizontalSpacer_3">
+       <spacer name="horizontalSpacer_2">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
@@ -119,9 +119,16 @@
        </spacer>
       </item>
       <item>
+       <widget class="QPushButton" name="rank_pushButton">
+        <property name="text">
+         <string>排行榜</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="send_pushButton">
         <property name="text">
-         <string>send</string>
+         <string>发送</string>
         </property>
        </widget>
       </item>
@@ -134,7 +141,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>486</width>
+     <width>577</width>
      <height>23</height>
     </rect>
    </property>

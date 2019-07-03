@@ -1,4 +1,4 @@
-#ifndef MAINWINDOW_H
+﻿#ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include <QMainWindow>
@@ -8,6 +8,7 @@
 #include <proto.hpp>
 #include <QStringListModel>
 #include <QStandardItemModel>
+#include <chat.pb.h>
 namespace Ui {
 class MainWindow;
 }
@@ -21,25 +22,23 @@ public:
     ~MainWindow();
 
 private slots:
+    void onListViewDBClicked(const QModelIndex &index);
+    void onListViewClicked(const QModelIndex &index);
+    void on_rank_pushButton_clicked();
+
     void on_send_pushButton_clicked();
 
-    void onRead();
-
-    void onListViewClicked(const QModelIndex &index);
 private:
     Ui::MainWindow *ui;
+    void onLogin(std::shared_ptr<chatpb::S2CLogin> pMsg);
+    void onOnlineUsers(std::shared_ptr<chatpb::S2COnlineUsers> pMsg);
+    void onChat(std::shared_ptr<chatpb::S2CChat> pMsg);
+    void onUserStatusChange(std::shared_ptr<chatpb::S2CStatusChange> pMsg);
     bool init();
-    void protoDispath(uint32_t nProtoId, const std::string &strMsg);
-    void onUserID(const std::string & strData);
-    void onUserList(const std::string &strData);
-    void onChat(const std::string &strData);
-
-
-    std::shared_ptr<QTcpSocket> m_pSocket;
-    std::map<ProtoId, CbFunc> m_mCb;
+    void updateUserList();
     QStringListModel m_listModel;
-    uint32_t m_nPacketSize = 0;
-    int32_t m_nSelfId = 0;
+    std::map<std::string, chatpb::StructUser> m_mCurUsers;
+    chatpb::StructUser m_selfInfo;
 };
 
 #endif // MAINWINDOW_H
