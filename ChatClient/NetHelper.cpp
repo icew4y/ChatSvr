@@ -1,4 +1,4 @@
-﻿#include "nethelper.h"
+#include "nethelper.h"
 #include <QDebug>
 NetHelper::NetHelper(QObject *pObj)
     : QTcpSocket (pObj)
@@ -8,7 +8,6 @@ NetHelper::NetHelper(QObject *pObj)
 
 int32_t NetHelper::send(const google::protobuf::Message &msg)
 {
-    qDebug () << "send:" << msg.Utf8DebugString().c_str();
     auto strData = msg.SerializeAsString();
     auto strTypeName = msg.GetTypeName();
     uint32_t nMsgTypeSize = strTypeName.size();
@@ -26,6 +25,7 @@ int32_t NetHelper::send(const google::protobuf::Message &msg)
     nCurLen += strTypeName.size();
     memcpy(tmpBuf + nCurLen, strData.c_str(), strData.size());
     nCurLen += strData.size();
+    qDebug() << "send >>>>" << msg.ShortDebugString().c_str();
     return this->write(tmpBuf, nCurLen);
 }
 
@@ -51,13 +51,18 @@ void NetHelper::onRead()
         std::string strMsgType(pBuf.get(), pBuf.get() + nMsgTypeSize);
         auto pMsg = m_pDispather->CreateMsg(strMsgType);
         pMsg->ParseFromString(std::string(pBuf.get() + nMsgTypeSize, pBuf.get() + nPacketData));
-        qDebug() <<"recv:"<< strMsgType.c_str() << pMsg->ShortDebugString().c_str();
+        qDebug() <<"recv:"<< strMsgType.c_str() <<pMsg->ShortDebugString().c_str();
         m_pDispather->onMsgCallBack(pMsg);
 //        pMsg->ParseFromString(strMsg);
 //        MsgItem item;
 //        item.pMsg = pMsg;
 //        m_queue.push(item);
     }
+}
+
+void NetHelper::onDisConnected()
+{
+    qDebug() << __FUNCTION__;
 }
 
 bool NetHelper::init()
@@ -67,6 +72,7 @@ bool NetHelper::init()
 //    }
     m_pDispather = std::make_shared<ProtoBufDispather>();
     connect(this, &NetHelper::readyRead, this, &NetHelper::onRead);
+    connect(this, &NetHelper::disconnected, this, &NetHelper::onDisConnected);
     return true;
 }
 

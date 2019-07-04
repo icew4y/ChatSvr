@@ -43,6 +43,9 @@ void LoginDialog::onLogin(std::shared_ptr<chatpb::S2CLogin> pMsg)
     case chatpb::PwError:
         strData = QStringLiteral("密码错误");
         break;
+    case chatpb::UserOnline:
+        strData = QStringLiteral("账号已登陆");
+        break;
     }
     if (!strData.isEmpty()) {
         QMessageBox::warning(this, QStringLiteral("警告"), strData, QMessageBox::Ok);

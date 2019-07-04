@@ -20,12 +20,12 @@
       <item>
        <widget class="QLabel" name="label">
         <property name="text">
-         <string>账号:</string>
+         <string>本机账号:</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="username_label">
+       <widget class="QLabel" name="nick_label">
         <property name="text">
          <string>nil</string>
         </property>

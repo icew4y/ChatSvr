@@ -10,7 +10,7 @@
 #include <rankdialog.h>
 #include <userinfodialog.h>
 #include <QMessageBox>
-
+#include <QDateTime>
 #define NOTIFY_ALL_STRING QStringLiteral("群发")
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -40,7 +40,7 @@ void MainWindow::onListViewDBClicked(const QModelIndex &index)
         infoDlg.SetUserInfo(iter->second);
         infoDlg.exec();
         infoDlg.close();
-    } else {
+    } else if (strNick != NOTIFY_ALL_STRING.toStdString()){
         QMessageBox::warning(this, QStringLiteral("警告"), QStringLiteral("没有找到此用户的信息"), QMessageBox::Ok);
     }
 }
@@ -58,16 +58,13 @@ bool MainWindow::init()
     pDispather->registerMsgCallBack<chatpb::S2CLogin>(std::bind(&MainWindow::onLogin, this, std::placeholders::_1));
     pDispather->registerMsgCallBack<chatpb::S2CChat>(std::bind(&MainWindow::onChat, this, std::placeholders::_1));
     pDispather->registerMsgCallBack<chatpb::S2CStatusChange>(std::bind(&MainWindow::onUserStatusChange, this, std::placeholders::_1));
+    connect(&m_timer, &QTimer::timeout, [this](){
+        NET->send(chatpb::C2SHeartBeat());
+        qDebug() << "heartbeat";
+    });
+    m_timer.setInterval(10*1000);
+    m_timer.start();
     return true;
-}
-
-void MainWindow::updateUserList()
-{
-    QStringList strList = {NOTIFY_ALL_STRING};
-    for (const auto & mIter : m_mCurUsers) {
-        strList << QString::fromStdString(mIter.first);
-    }
-    m_listModel.setStringList(strList);
 }
 
 void MainWindow::onListViewClicked(const QModelIndex &index)
@@ -78,56 +75,30 @@ void MainWindow::onListViewClicked(const QModelIndex &index)
 void MainWindow::onLogin(std::shared_ptr<chatpb::S2CLogin> pMsg)
 {
     if (pMsg->eret() == chatpb::Success) {
-        m_selfInfo = pMsg->info();;
-        ui->username_label->setText(QString::fromStdString(m_selfInfo.username()));
+        m_selfInfo = pMsg->info();
+        ui->nick_label->setText(QString::fromStdString(m_selfInfo.username()));
         chatpb::C2SOnlineUsers req;
+        std::map<int64_t, chatpb::S2CChat> mChats;
+        for (int32_t i = 0; i < pMsg->lastchat_size(); i++) {
+            auto &chatMsg = pMsg->lastchat(i);
+            mChats[chatMsg.sendtime()] = chatMsg;
+        }
+        for (const auto& mIter : mChats){
+            QString strTime = QDateTime::fromTime_t(mIter.first/1000000000).toString("yyyy-MM-dd HH:mm:ss");
+            auto strMsg = QString("[%4]FROM:%1->%2\n%3\n").arg(mIter.second.fromnick().c_str()).arg(NOTIFY_ALL_STRING).arg(mIter.second.msg().c_str()).arg(strTime);
+            ui->textBrowser->append(strMsg);
+        }
         NET->send(req);
     }
 }
 
-
-
-void MainWindow::onOnlineUsers(std::shared_ptr<chatpb::S2COnlineUsers> pMsg)
+void MainWindow::updateUserList()
 {
-    auto nCnt = pMsg->users_size();
     QStringList strList = {NOTIFY_ALL_STRING};
-    std::map<std::string, chatpb::StructUser> emptyMap;
-    m_mCurUsers.swap(emptyMap);
-    for (int32_t i = 0; i < nCnt; i++){
-        auto user = pMsg->users(i);
-        m_mCurUsers[user.username()] = user;    
+    for (const auto & mIter : m_mCurUsers) {
+        strList << QString::fromStdString(mIter.first);
     }
-    updateUserList();
-}
-
-void MainWindow::onChat(std::shared_ptr<chatpb::S2CChat> pMsg)
-{
-    QString strMsg;
-    if (pMsg->eret() == chatpb::NormalError) {
-        auto tmpMsg = QStringLiteral("消息发送失败:") + QString("TO:%2,MSG:%1").arg(pMsg->msg().c_str(), pMsg->tonick().c_str());
-        strMsg = "<font color=\"#FF0000\">" + tmpMsg + "</font>" + "\n";
-        //收到成功标志
-    } else if (pMsg->eret() == chatpb::Success) {
-        //自己的发送成功
-        if ( pMsg->fromuid() == m_selfInfo.uid()) {
-            auto tmpMsg = QString("TO:%2,MSG:%1").arg(pMsg->msg().c_str(), pMsg->tonick().c_str());
-            strMsg = "<font color=\"#00FF00\">" + tmpMsg + "</font>" + "\n";
-         //别人的成功
-        }else {
-            if (pMsg->emsgtype() == chatpb::eMsg_All) {
-                strMsg = QString("FROM:%1->%2\n%3\n").arg(pMsg->fromuid()).arg(NOTIFY_ALL_STRING).arg(pMsg->msg().c_str());
-            } else if (pMsg->emsgtype() == chatpb::eMsg_One) {
-                strMsg = QString("FROM:%1->%2\n%3\n").arg(pMsg->fromuid()).arg(m_selfInfo.username().c_str()).arg(pMsg->msg().c_str());
-            }
-        }
-    } else if (pMsg->eret() == chatpb::UserOffline) {
-        auto tmpMsg = QStringLiteral("消息发送失败:") + QString("TO:%2,MSG:%1").arg(pMsg->msg().c_str(), pMsg->tonick().c_str()) + QStringLiteral(",用户已下线！");
-        strMsg = "<font color=\"#FF0000\">" + tmpMsg + "</font>" + "\n";
-    }
-
-    if (!strMsg.isEmpty()) {
-        ui->textBrowser->append(strMsg);
-    }
+    m_listModel.setStringList(strList);
 }
 
 void MainWindow::onUserStatusChange(std::shared_ptr<chatpb::S2CStatusChange> pMsg)
@@ -143,7 +114,51 @@ void MainWindow::onUserStatusChange(std::shared_ptr<chatpb::S2CStatusChange> pMs
             }
         }
         updateUserList();
-        qDebug() << "update";
+    }
+}
+
+void MainWindow::onOnlineUsers(std::shared_ptr<chatpb::S2COnlineUsers> pMsg)
+{
+    auto nCnt = pMsg->users_size();
+    QStringList strList = {NOTIFY_ALL_STRING};
+    std::map<std::string, chatpb::StructUser> emptyMap;
+    m_mCurUsers.swap(emptyMap);
+    for (int32_t i = 0; i < nCnt; i++){
+        auto user = pMsg->users(i);
+        m_mCurUsers[user.username()] = user;
+    }
+    updateUserList();
+}
+
+void MainWindow::onChat(std::shared_ptr<chatpb::S2CChat> pMsg)
+{
+    qDebug() << __FUNCTION__;
+    QString strMsg;
+    QString strTime = QDateTime::fromTime_t(pMsg->sendtime()/1000000000).toString("yyyy-MM-dd HH:mm:ss");
+    if (pMsg->eret() == chatpb::NormalError) {
+        auto tmpMsg = QStringLiteral("消息发送失败:") + QString("TO:%2,MSG:%1").arg(pMsg->msg().c_str(), pMsg->tonick().c_str());
+        strMsg = "<font color=\"#FF0000\">" + tmpMsg + "</font>" + "\n";
+        //收到成功标志
+    } else if (pMsg->eret() == chatpb::Success) {
+        //自己的发送成功
+        if ( pMsg->fromuid() == m_selfInfo.uid()) {
+            auto tmpMsg = QString("TO:%2,MSG:%1").arg(pMsg->msg().c_str(), pMsg->tonick().c_str());
+            strMsg = "<font color=\"#00FF00\">" + tmpMsg + "</font>" + "\n";
+         //别人的成功
+        }else {
+            if (pMsg->emsgtype() == chatpb::eMsg_All) {
+                strMsg = QString("[%4]FROM:%1->%2\n%3\n").arg(pMsg->fromnick().c_str()).arg(NOTIFY_ALL_STRING).arg(pMsg->msg().c_str()).arg(strTime);
+            } else if (pMsg->emsgtype() == chatpb::eMsg_One) {
+                strMsg = QString("[%4]FROM:%1->%2\n%3\n").arg(pMsg->fromnick().c_str()).arg(m_selfInfo.username().c_str()).arg(pMsg->msg().c_str()).arg(strTime);
+            }
+        }
+    } else if (pMsg->eret() == chatpb::UserOffline) {
+        auto tmpMsg = QStringLiteral("消息发送失败:") + QString("[%3]TO:%2,MSG:%1,用户已下线！").arg(pMsg->msg().c_str(), pMsg->tonick().c_str(), strTime);
+        strMsg = "<font color=\"#FF0000\">" + tmpMsg + "</font>" + "\n";
+    }
+
+    if (!strMsg.isEmpty()) {
+        ui->textBrowser->append(strMsg);
     }
 }
 
@@ -154,6 +169,8 @@ void MainWindow::on_rank_pushButton_clicked()
     rankdlg.close();
 }
 
+
+
 void MainWindow::on_send_pushButton_clicked()
 {
     chatpb::C2SChat req;
@@ -163,6 +180,7 @@ void MainWindow::on_send_pushButton_clicked()
         QMessageBox::warning(this, QStringLiteral("警告"), QStringLiteral("发送消息为空"), QMessageBox::Ok);
         return;
     }
+    qDebug() << "send>>>>>>>>>>" << strTarget << m_selfInfo.username().c_str();
     if (strTarget.toStdString() == m_selfInfo.username()) {
         QMessageBox::warning(this, QStringLiteral("警告"), QStringLiteral("不能发送给自己"), QMessageBox::Ok);
         return;
@@ -182,5 +200,5 @@ void MainWindow::on_send_pushButton_clicked()
         }
     }
     req.set_msg(strMsg.toStdString());
-    NET->send(req);
+    qDebug () << "send" << NET->send(req);
 }

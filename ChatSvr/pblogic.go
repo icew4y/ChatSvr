@@ -6,16 +6,26 @@ import (
     "fmt"
     "time"
     "reflect"
+    "encoding/json"
     l4g "github.com/alecthomas/log4go"
 )
 
 const (
     KeyUser = "USER"
     KeyConfig = "Config:Normal"
+    KeyChat = "Chat:"
+    KeyChatCnt = "Chat:Task:Count"
     FiledCurUID = "CurUserID"
+
+    ChatSaveType_Self = 1
+    ChatSaveType_Other = 2
 )
 
-var ProtoMap = make(map[string]IProto)
+
+var (
+    ProtoMap = make(map[string]IProto)
+    ChatMapCache = make(map[int64]* chatpb.S2CChat, 10)
+)
 
 type IProto interface {
     Execute(msg proto.Message, pUser *User)
@@ -26,6 +36,54 @@ func ProtoRegister() {
     ProtoMap["chatpb.C2SRegister"] = C2SRegister{}
     ProtoMap["chatpb.C2SOnlineUsers"] = C2SOnlineUsers{}
     ProtoMap["chatpb.C2SChat"] = C2SChat{}
+    ProtoMap["chatpb.C2SChatCntTopUsers"] = C2SChatCntTopUsers{}
+    ProtoMap["chatpb.C2SChatCnt"] = C2SChatCnt{}
+    ProtoMap["chatpb.C2SHeartBeat"] = C2SHeartBeat{}
+}
+
+type C2SHeartBeat chatpb.C2SHeartBeat
+func (this C2SHeartBeat) Execute (msg proto.Message, pUser *User) {
+    l4g.Info("[heartbeat]connid:%d, userid:%d, nickname:%s", pUser.connid, pUser.id, pUser.nickname)
+}
+
+type C2SChatCnt chatpb.C2SChatCnt
+func (this C2SChatCnt) Execute (msg proto.Message, pUser *User) {
+    pb := msg.(*chatpb.C2SChatCnt)
+    r, err := RedisCli.Cmd("zscore", KeyChatCnt, pb.Nick).Int64()
+    retMsg := &chatpb.S2CChatCnt {
+        ERet: chatpb.ERetType_Success,
+        Nick: pb.GetNick(),
+    }
+    defer pUser.Send(retMsg)
+    if (RedisErrHndlr(err)){
+        retMsg.Chatcnt = int32(r)
+    } else {
+        retMsg.ERet = chatpb.ERetType_RedisError
+    }
+}
+
+type C2SChatCntTopUsers chatpb.C2SChatCntTopUsers
+func (this C2SChatCntTopUsers) Execute (msg proto.Message, pUser *User) {
+    pb := msg.(*chatpb.C2SChatCntTopUsers)
+    retMsg := &chatpb.S2CChatCntTopUsers {
+        ERet: chatpb.ERetType_Success,
+    }
+    defer pUser.Send(retMsg)
+    r, err := RedisCli.Cmd("zrevrange", KeyChatCnt, pb.Start-1, pb.Start-1+pb.Cnt, "withscores").Hash()
+    users := []*chatpb.StructUser {}
+    if (RedisErrHndlr(err)) {
+        for k, _ := range r{
+            pTempUser := &chatpb.StructUser {
+                Username: []byte(k),
+                Chatcnt: AtoInt32FromHash(r, k),
+            }
+            users = append(users, pTempUser)
+        }
+        retMsg.Users = users
+    } else {
+        retMsg.ERet = chatpb.ERetType_RedisError
+        return
+    }
 }
 
 type C2SChat chatpb.C2SChat
@@ -39,6 +97,7 @@ func (this C2SChat) Execute (msg proto.Message, pUser *User) {
         FromNick: []byte(pUser.nickname),
         ToUid: pb.GetToUid(),
         ToNick: pb.GetToNick(),
+        SendTime: time.Now().UnixNano(),
         ERet: chatpb.ERetType_Success,
     }
     defer pUser.Send(retMsg)
@@ -63,6 +122,42 @@ func (this C2SChat) Execute (msg proto.Message, pUser *User) {
         l4g.Info("unknow msg type %s", pb.GetEMsgType())
         retMsg.ERet = chatpb.ERetType_NormalError
         return
+    }
+
+    if (retMsg.ERet == chatpb.ERetType_Success) {
+        //聊天记录写到缓存
+        if jsonBuf, err := json.Marshal(retMsg); err == nil{
+            key := fmt.Sprintf("%s%s", KeyChat,pUser.nickname)
+            _, err := RedisCli.Cmd("zadd", key, retMsg.SendTime, string(jsonBuf)).Int64()
+            if (!RedisErrHndlr(err)) {
+                retMsg.ERet = chatpb.ERetType_RedisError
+                return
+            }
+        } else {
+            l4g.Error("%s", err)
+            retMsg.ERet = chatpb.ERetType_NormalError
+            return
+        }
+        //更新下聊天数量
+        n, err := RedisCli.Cmd("zincrby", KeyChatCnt, 1, pUser.nickname).Int64()
+        if (RedisErrHndlr(err)) {
+            pUser.chatcnt = int32(n)
+        }
+        //保存最近10条广播消息
+        if retMsg.EMsgType != chatpb.EMsgType_eMsg_All {
+            return
+        }
+        l4g.Info("len......%d", len(ChatMapCache))
+        if len(ChatMapCache) >= 10 {
+            var min int64 = time.Now().UnixNano()
+            for k, _ := range ChatMapCache {
+                if min > k{
+                    min = k
+                }
+            }
+            delete(ChatMapCache, min)
+        }
+        ChatMapCache[retMsg.SendTime]= retMsg
     }
 }
 
@@ -100,7 +195,13 @@ func (this C2SLogin) Execute (msg proto.Message, pUser *User) {
             l4g.Error("[login]username err:%s", string(pb.GetUsername()))
             return
         }
+        //密码认证成功
         if string(pb.GetPassword()) == r["password"] {
+           //是否已经在线 
+            if (OnlineUsers.Existed(string(pb.GetUsername()))){
+                retMsg.ERet = chatpb.ERetType_UserOnline
+                return
+            }
             //更新登录信息
             _, err := RedisCli.Cmd(
             "hmset",
@@ -118,6 +219,13 @@ func (this C2SLogin) Execute (msg proto.Message, pUser *User) {
             pUser.leaveTime = AtoInt64FromHash(r, "leavetime")
             pUser.chatcnt = AtoInt32FromHash(r, "chatcnt")
             OnlineUsers.NotifyUserStatusChange(pUser)
+            //最近广播的记录
+            lastChat := []*chatpb.S2CChat{}
+            for _, v := range ChatMapCache {
+                lastChat = append(lastChat, v)
+            }
+            retMsg.Lastchat = lastChat
+            //拉取聊天次数
             pbUser := &chatpb.StructUser {
                 Username: []byte(pUser.nickname),
                 Uid: pUser.id,
@@ -127,7 +235,7 @@ func (this C2SLogin) Execute (msg proto.Message, pUser *User) {
                 Lastleavetime: pUser.leaveTime,
             }
             retMsg.Info = pbUser
-            pUser.Online()
+            pUser.Online(true)
             l4g.Info("[login]username:%s login success, time:%s", string(pb.GetUsername()), time.Now())
             return
         } else {

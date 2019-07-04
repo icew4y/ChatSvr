@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <common.pb.h>
+#include <chat.pb.h>
 namespace Ui {
 class UserInfoDialog;
 }
@@ -17,6 +18,8 @@ public:
     void SetUserInfo(chatpb::StructUser &user);
 private:
     Ui::UserInfoDialog *ui;
+    void onChatCnt(std::shared_ptr<chatpb::S2CChatCnt> pMsg);
+    bool init();
 };
 
 #endif // USERINFODIALOG_H

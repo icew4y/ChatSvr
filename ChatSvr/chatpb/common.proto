@@ -3,11 +3,33 @@ package chatpb;
 
 enum ERetType{
     Success = 0;//成功
-    RedisError = 1;//redis执行失败
-    SQLError = 2;//mysql执行失败
+    NormalError = 1;//一般错误
+    RedisError = 2;//redis执行失败
+    SQLError = 3;//mysql执行失败
     PwError = 100;//密码错误
     UnError = 101;//账错误
     UnExistError = 102;//账号已经存在
     UnNotStandard = 103;//账号不标准
     PwNotStandard = 104;//密码不标准
+    UserOffline = 105;//账号已经离线
+    UserOnline = 106;//登陆的时候已经在线
 };
+
+enum EMsgType {
+    eMsg_All = 0;//通知所有
+    eMsg_One = 1;//通知一个
+}
+
+enum EUserStatus {
+    eStatus_Online = 0;
+    eStatus_Offline = 1;
+}
+
+message StructUser {
+    bytes username = 1;
+    int32 uid = 2;
+    int64 regtime = 3;
+    int64 lastlogintime = 4;
+    int32 chatcnt = 5;
+    int64 lastleavetime = 6;
+}

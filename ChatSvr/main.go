@@ -10,6 +10,7 @@ import (
 var (
     RedisCli  *redis.Client
     svr *Server
+    ticker *time.Timer
 )
 
 func main () {
@@ -25,6 +26,7 @@ func main () {
     }
     defer RedisCli.Close()
     ProtoRegister()
+    ticker = time.NewTimer(5 * time.Second)
     svr = &Server {
         Addr: "0.0.0.0:8000",
         CurConnId: 0,
@@ -87,6 +89,9 @@ func Run() {
             case pUser := <-ConnUsers.UserCh:
                 l4g.Debug("conn change")
                 ConnUsers.StatusChange(pUser)
+            case tm := <-ticker.C:
+                ticker.Reset(5*time.Second)
+                l4g.Info("[TIMER EVENT][%s] ONLINE:%d, CONN:%d", tm, len(OnlineUsers.UserPool), len(ConnUsers.UserPool))
             //default:
                 //l4g.Debug("run loop default")
         }

@@ -5,6 +5,7 @@ import (
     "os"
     "encoding/binary"
     "net"
+    "time"
     l4g "github.com/alecthomas/log4go"
 )
 
@@ -32,7 +33,7 @@ func (this *Server) Listen () {
             os.Exit(0)
         }
         this.CurConnId++
-        user := User {id:this.CurConnId, Conn:conn}
+        user := User {id:this.CurConnId, Conn:conn, connid:this.CurConnId}
         l4g.Info(">>>>> new connection %s >>>>>" , conn.RemoteAddr())
         go this.ClientCb(&user)
     }
@@ -40,13 +41,19 @@ func (this *Server) Listen () {
 
 func (this *Server)ClientCb(pUser *User) {
     defer func () {
-        pUser.Offline()
+        pUser.Offline(true)
         OnlineUsers.NotifyUserStatusChange(pUser)
-        ConnUsers.NotifyUserStatusChange(pUser)
+        var tempUser User = *pUser
+        tempUser.id = tempUser.connid
+        ConnUsers.NotifyUserStatusChange(&tempUser)
+        l4g.Info("id:%d, connid:%d", pUser.id, pUser.connid)
         pUser.Close()
     }()
+    pUser.Online(false)
+    ConnUsers.NotifyUserStatusChange(pUser)
     readBuf :=make([]byte, this.MaxMsgBuf)
     for {
+        pUser.SetDeadline(time.Now().Add(time.Duration(30) * time.Second))
         n, err := pUser.Read(readBuf)
         if err != nil{
             l4g.Error(err)

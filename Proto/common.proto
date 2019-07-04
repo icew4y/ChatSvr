@@ -12,6 +12,7 @@ enum ERetType{
     UnNotStandard = 103;//账号不标准
     PwNotStandard = 104;//密码不标准
     UserOffline = 105;//账号已经离线
+    UserOnline = 106;//登陆的时候已经在线
 };
 
 enum EMsgType {

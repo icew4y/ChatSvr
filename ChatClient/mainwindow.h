@@ -1,4 +1,4 @@
-﻿#ifndef MAINWINDOW_H
+#ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include <QMainWindow>
@@ -9,6 +9,7 @@
 #include <QStringListModel>
 #include <QStandardItemModel>
 #include <chat.pb.h>
+#include <QTimer>
 namespace Ui {
 class MainWindow;
 }
@@ -32,13 +33,16 @@ private:
     Ui::MainWindow *ui;
     void onLogin(std::shared_ptr<chatpb::S2CLogin> pMsg);
     void onOnlineUsers(std::shared_ptr<chatpb::S2COnlineUsers> pMsg);
-    void onChat(std::shared_ptr<chatpb::S2CChat> pMsg);
     void onUserStatusChange(std::shared_ptr<chatpb::S2CStatusChange> pMsg);
-    bool init();
+    void onChat(std::shared_ptr<chatpb::S2CChat> pMsg);
     void updateUserList();
+    bool init();
+
     QStringListModel m_listModel;
     std::map<std::string, chatpb::StructUser> m_mCurUsers;
     chatpb::StructUser m_selfInfo;
+
+    QTimer m_timer;
 };
 
 #endif // MAINWINDOW_H

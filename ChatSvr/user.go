@@ -14,7 +14,7 @@ const (
 )
 
 type User struct {
-    id, chatcnt int32
+    connid, id, chatcnt int32
     nickname string
     net.Conn
     status int32
@@ -22,7 +22,6 @@ type User struct {
 }
 
 type IDList []int32
-//type UsersManager map[int32]*User
 
 type UsersManager struct {
     UserPool map[int32]*User
@@ -45,14 +44,18 @@ var (
     }//连接管理
 )
 
-func (this *User) Online () {
+func (this *User) Online (send bool) {
     this.status = EUserOnline
-    SendUserStatusChange(this)
+    if (send) {
+        SendUserStatusChange(this)
+    }
 }
 
-func (this *User) Offline() {
+func (this *User) Offline(send bool) {
     this.status = EUserOffline
-    SendUserStatusChange(this)
+    if (send) {
+        SendUserStatusChange(this)
+    }
 }
 
 //单独发回给用户
@@ -134,6 +137,15 @@ func (pUM *UsersManager) GetOnlineList() IDList {
         idList = append(idList, k)
     }
     return idList
+}
+
+func (this *UsersManager) Existed (nick string) bool {
+    for _, v := range this.UserPool {
+        if (v.nickname == nick) {
+            return true;
+        }
+    }
+    return false
 }
 
 func (this *UsersManager) GetUserByID (id int32) (*User, error) {

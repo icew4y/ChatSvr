@@ -10,7 +10,7 @@ message C2SLogin{
 message S2CLogin{
     ERetType eRet = 1;
     StructUser info = 2;
-    repeated bytes lastchat = 3;
+    repeated S2CChat lastchat = 3;
 }
 
 message C2SRegister{
@@ -45,6 +45,7 @@ message S2CChat {
     int32 toUid = 5;
     bytes fromNick = 6;
     bytes toNick = 7;
+    int64 sendTime = 8;
 }
 
 message C2SChatCntTopUsers {
@@ -57,8 +58,21 @@ message S2CChatCntTopUsers {
     ERetType eRet = 2;
 }
 
+message C2SHeartBeat{
+}
+
 message S2CStatusChange {
     StructUser user = 1;
     EUserStatus status = 2;
+    ERetType eRet = 3;
+}
+
+message C2SChatCnt {
+    bytes nick = 1;
+}
+
+message S2CChatCnt {
+    int32 chatcnt = 1;
+    bytes nick = 2;
     ERetType eRet = 3;
 }

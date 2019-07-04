@@ -35,6 +35,7 @@ public:
     std::shared_ptr<ProtoBufDispather> GetDispather() const;
 private slots:
     void onRead();
+    void onDisConnected();
 private:
     bool init();
     void run();
